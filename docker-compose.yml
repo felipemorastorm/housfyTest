@@ -21,21 +21,31 @@ services:
       - .:/app
     working_dir: /app
     entrypoint: vendor/bin/phpunit
-  db:
-    container_name: mariadb
-    image: mariadb
-    restart: always
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: 'housfy_db'
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      MYSQL_ROOT_PASSWORD: ""
-    volumes:
-      - ./db:/var/lib/mysql
   cache:
     container_name: redis
     hostname: redis
     image: redis:alpine
     restart: unless-stopped
+    # MySQL container
+  db:
+    image: mariadb
+    container_name: housfy_db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      DB_HOST: 'localhost'
+      MYSQL_DATABASE: 'housfy_db'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: ""
+    volumes:
+      - ./db:/var/lib/mysql
 
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: phpmyadmin_housfy
+      restart: always
+      ports:
+        - 8086:80
+      depends_on:
+        - db
