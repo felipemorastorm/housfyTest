@@ -39,7 +39,7 @@ class apiOfficesController extends Controller
             ], 201);
         }catch (\Exception $e){
             return response()->json([
-                "message" => ('error retrieving data:'.$e->getMessage()
+                "message" => ('error retrieving data:'.$e->getMessage())
             ], 422);
 
 
@@ -69,7 +69,7 @@ class apiOfficesController extends Controller
     public function updateOffice(Request $request){
         try {
                 $idToUpdate = $request->id;
-                $officeToUpdate = Offices::find($idToUpdate);
+                $officeToUpdate = Offices::findOrFail($idToUpdate);
                 $officeToUpdate->name = $request->name;
                 $officeToUpdate->address = $request->address;
                 $officeToUpdate->save();
