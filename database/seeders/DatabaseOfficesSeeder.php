@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\goods;
+use App\Models\Offices;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
-class DatabaseGoodsSeeder extends Seeder
+class DatabaseOfficesSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -16,7 +16,7 @@ class DatabaseGoodsSeeder extends Seeder
     {
         $faker = Faker::create();
         for($i=1;$i<=50;$i++) {
-            Goods::create(array('name' => $faker->name(), 'address' => $faker->address()));
+            Offices::create(array('name' => $faker->name(), 'address' => $faker->address()));
         }
         $this->command->info('User table seeded!');
     }

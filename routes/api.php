@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\apiGoodsController as apiGoodsController;
+use App\Http\Controllers\apiOfficesController as apiGoodsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,7 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-    Route::post('/newGoods', 'App\Http\Controllers\apiGoodsController@createGood');
-    Route::get('/goods', 'App\Http\Controllers\apiGoodsController@getAllGoods');
+    Route::post('/newOffice', 'App\Http\Controllers\apiOfficesController@newOffice');
+    Route::post('/updateOffice', 'App\Http\Controllers\apiOfficesController@updateOffice');
+    Route::post('/deleteOffice', 'App\Http\Controllers\apiOfficesController@deleteOffice');
+    Route::get('/offices', 'App\Http\Controllers\apiOfficesController@getAllOffices');
 
 
