@@ -7,6 +7,7 @@ services:
     volumes:
       - .:/app
   app:
+    container_name: housfy_web
     build:
       context: .
       dockerfile: .docker/Dockerfile
@@ -22,7 +23,7 @@ services:
     working_dir: /app
     entrypoint: vendor/bin/phpunit
   cache:
-    container_name: redis
+    container_name: redis_housfy
     hostname: redis
     image: redis:alpine
     restart: unless-stopped

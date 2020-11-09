@@ -7,24 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\Offices;
 use Illuminate\Support\Facades\Redis as Redis;
 
+/**
+ * Class apiOfficesController
+ * @package App\Http\Controllers
+ */
 class apiOfficesController extends Controller
 {
-    public function newOffice(Request $request){
-        try {
-            $offices = new Offices();
-            $offices->name = $request->name;
-            $offices->address = $request->address;
-            $offices->save();
-            //all ok return json ok response to api
-            return response()->json([
-                "message" => "goods record created"
-            ], 201);
-        }catch (\Exception $e){
-            return response()->json([
-                "message" => 'Cannot create :'.$e->getMessage()
-            ], 422);
-        }
-    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAllOffices(Request $request){
         try {
 
@@ -45,6 +38,32 @@ class apiOfficesController extends Controller
 
         }
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function newOffice(Request $request){
+        try {
+            $offices = new Offices();
+            $offices->name = $request->name;
+            $offices->address = $request->address;
+            $offices->save();
+            //all ok return json ok response to api
+            return response()->json([
+                "message" => "goods record created"
+            ], 201);
+        }catch (\Exception $e){
+            return response()->json([
+                "message" => 'Cannot create :'.$e->getMessage()
+            ], 422);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteOffice(Request $request){
         try {
             $officeToDelete = Offices::find($request->id);
@@ -66,6 +85,11 @@ class apiOfficesController extends Controller
             ], 422);
         }
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateOffice(Request $request){
         try {
                 $idToUpdate = $request->id;

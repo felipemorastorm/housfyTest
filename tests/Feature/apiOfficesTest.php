@@ -24,9 +24,15 @@ class apiOfficesTest extends TestCase
      * @return void
      */
     //define api base url for calls
+    /**
+     * @var string
+     */
     public $api_Url = 'http://localhost:8080/api/';
 
-    public function testExample()
+    /**
+     *
+     */
+    public function testBasePath()
     {
         $response = $this->get('/');
 
@@ -35,20 +41,20 @@ class apiOfficesTest extends TestCase
 
     /*
      * Call getOffices and await for 201 reply*/
+    /**
+     * Api show all offices , await for 201 response
+     */
     public function testGetAllOfficesFromDDBB(){
         //try delete redis cache
         //call to show all offices
         $response = $this->json('GET', $this->api_Url.'offices');
-        $response->dump();
-        $response->assertStatus(201);
-    }
-    public function testGetAllOfficesFromCache(){
-        $response = $this->json('GET', $this->api_Url.'offices');
-        $response->dump();
         $response->assertStatus(201);
     }
 
 
+    /**
+     * Api call to new insertion office , generate name and address via faker
+     */
     public function testInsertNewOfficeParamsOk(){
         //create the new value
         $faker = Faker::create();
@@ -64,6 +70,9 @@ class apiOfficesTest extends TestCase
     }
 
 
+    /**
+     * Test insertion new office with params not valid
+     */
     public function testInsertNewOfficeParamsFail(){
         //create the new value
         $faker = Faker::create();
@@ -89,6 +98,9 @@ class apiOfficesTest extends TestCase
         $response->assertStatus(422);
     }
 
+    /**
+     * Try update with valid params and verify if value in ddbb changed
+     */
     public function testUpdateNewOfficeParamsOk(){
         $office = null;
         //find for a valid id
@@ -119,6 +131,10 @@ class apiOfficesTest extends TestCase
         $this->assertNotEquals($reUpdateOffice->name, 'testName',$office->name.' --testName for id:'.$office->id);
         $this->assertNotEquals($reUpdateOffice->address, 'testAddress',$office->address.' --testAddress for id:'.$office->id);
     }
+
+    /**
+     * Call update action api with params not accepted
+     */
     public function testUpdateNewOfficeParamsFail(){
         $office = null;
         //find for a valid id
@@ -148,6 +164,9 @@ class apiOfficesTest extends TestCase
 
     }
 
+    /**
+     *  Call api for Delete office, verify that values in ddbb are ok
+     */
     public function testDeleteOfficeParamsOk(){
             //create new office and just delete
             $faker = Faker::create();
@@ -164,6 +183,10 @@ class apiOfficesTest extends TestCase
             $office = Offices::find($newOffice->id);
             $this->assertNull($office);
         }
+
+    /**
+     * Call api delete office  with a id empty
+     */
     public function testDeleteOfficeIdEmptyFail(){
             //create new office and just delete
             $dataTopost = array('id'=>'');
@@ -171,6 +194,10 @@ class apiOfficesTest extends TestCase
             $response = $this->json('POST', $this->api_Url.'deleteOffice', $dataTopost);
             $response->assertStatus(422);
         }
+
+    /**
+     * Call api delete office with a string in param id
+     */
     public function testDeleteOfficeIdStringFail(){
             //create new office and just delete
             $dataTopost = array('id'=>'text');
@@ -178,15 +205,32 @@ class apiOfficesTest extends TestCase
             $response = $this->json('POST', $this->api_Url.'deleteOffice', $dataTopost);
             $response->assertStatus(422);
     }
+
+    /**
+     *  Call api delete office with id not in ddbb, id null ,id not exist in ddbb,  id null and id string
+     */
     public function testDeleteOfficeIdDontExistFail(){
-        //create new office and just delete
-        $officeNotExist = true;
-        while($office!=null) {
-            $id = rand(0, 2000);
-            $office = Offices::find($id);
-        }
-        //id dont found, try delete
-        $dataTopost = array('id'=>$id);
+
+        //try delete id empty
+        $dataTopost = array('id'=>null);
+        //try deletion with id empty
+        $response = $this->json('POST', $this->api_Url.'deleteOffice', $dataTopost);
+        $response->assertStatus(422);
+
+        //try delete id not exist
+        $dataTopost = array('id'=>787897980787878);
+        //try deletion with id empty
+        $response = $this->json('POST', $this->api_Url.'deleteOffice', $dataTopost);
+        $response->assertStatus(422);
+
+        //try delete id empty
+        $dataTopost = array('id'=>'');
+        //try deletion with id empty
+        $response = $this->json('POST', $this->api_Url.'deleteOffice', $dataTopost);
+        $response->assertStatus(422);
+
+        //try delete id string
+        $dataTopost = array('id'=>'id_isstring');
         //try deletion with id empty
         $response = $this->json('POST', $this->api_Url.'deleteOffice', $dataTopost);
         $response->assertStatus(422);
