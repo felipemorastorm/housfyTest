@@ -50,7 +50,7 @@ class apiOfficesController extends Controller
             $officeToDelete = Offices::find($request->id);
             if($officeToDelete!=null) {
                 $officeToDelete->delete();
-                //all ok return json ok response to api
+                //all ok ,return json ok response to api
                 return response()->json([
                     "message" => "office with id:".$officeToDelete." deleted sucesfully!"
                 ], 201);
