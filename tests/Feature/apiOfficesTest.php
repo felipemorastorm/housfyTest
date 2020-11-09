@@ -18,15 +18,7 @@ use Tests\TestCase;
  */
 class apiOfficesTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    //define api base url for calls
-    /**
-     * @var string
-     */
+
     public $api_Url = 'http://localhost:8080/api/';
 
     /**

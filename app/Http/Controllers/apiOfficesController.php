@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Filesystem\Cache;
 use Illuminate\Http\Request;
 use App\Models\Offices;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis as Redis;
 
 /**
@@ -51,7 +52,7 @@ class apiOfficesController extends Controller
             $offices->save();
             //all ok return json ok response to api
             return response()->json([
-                "message" => "goods record created"
+                "message" => "New office with id:".$offices->id.' and name :'.$offices->name.' saved'
             ], 201);
         }catch (\Exception $e){
             return response()->json([
@@ -92,11 +93,11 @@ class apiOfficesController extends Controller
      */
     public function updateOffice(Request $request){
         try {
-                $idToUpdate = $request->id;
-                $officeToUpdate = Offices::findOrFail($idToUpdate);
-                $officeToUpdate->name = $request->name;
-                $officeToUpdate->address = $request->address;
-                $officeToUpdate->save();
+            $idToUpdate = $request->id;
+            $officeToUpdate = Offices::findOrFail($idToUpdate);
+            $officeToUpdate->name = $request->name;
+            $officeToUpdate->address = $request->address;
+            $officeToUpdate->save();
 
             //all ok return json ok response to api
             return response()->json([
