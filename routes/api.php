@@ -22,5 +22,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::post('/updateOffice', 'App\Http\Controllers\apiOfficesController@updateOffice');
     Route::post('/deleteOffice', 'App\Http\Controllers\apiOfficesController@deleteOffice');
     Route::get('/offices', 'App\Http\Controllers\apiOfficesController@getAllOffices');
+    Route::get('/getOffice', 'App\Http\Controllers\apiOfficesController@getOffice');
 
 

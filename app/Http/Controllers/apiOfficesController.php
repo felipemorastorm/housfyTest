@@ -40,6 +40,28 @@ class apiOfficesController extends Controller
         }
     }
 
+    public function getOffice(Request $request){
+        try {
+            $officeToRead = Offices::find($request->id);
+            if($officeToRead!=null) {
+
+                //all ok ,return json ok response to api
+                return response()->json([
+                    "message" => $officeToRead
+                ], 201);
+            }else{
+                return response()->json([
+                    "message" => 'office with id:'.$request->id.' not exist'
+                ], 422);
+            }
+
+        }catch (\Exception $e){
+            return response()->json([
+                "message" => 'Error retrieving data :'.$e->getMessage()
+            ], 422);
+        }
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

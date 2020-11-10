@@ -30,9 +30,36 @@ class apiOfficesTest extends TestCase
 
         $response->assertStatus(200);
     }
+    /**
+     * Api show office by id , await for 201 response
+     */
+    public function testGetOfficeWithParamsOk(){
+        $office = null;
+        //find for a valid id
+        while($office==null) {
+            $id = rand(1,50);
+            $office = Offices::find($id);
+        }
+        $response = $this->json('GET', $this->api_Url.'getOffice',array('id'=>$office->id));
+        $response->assertStatus(201);
+    }
+    /**
+     * Api show office by id , await for 201 response
+     */
+    public function testGetOfficeWithParamsFail(){
+        //try get operation string
+        $response = $this->json('GET', $this->api_Url.'getOffice',array('id'=>'string'));
+        $response->assertStatus(402);
+        //try get operation id=0
+        $response = $this->json('GET', $this->api_Url.'getOffice',array('id'=>0));
+        $response->assertStatus(402);
+        //try get operation id not exist
+        $response = $this->json('GET', $this->api_Url.'getOffice',array('id'=>3093824982));
+        $response->assertStatus(402);
+    }
 
-    /*
-     * Call getOffices and await for 201 reply*/
+
+
     /**
      * Api show all offices , await for 201 response
      */

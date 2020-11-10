@@ -97,6 +97,7 @@ class apiOfficeConsole extends Command
 
                 echo $httpClient->body();
             }
+
             exit(0);
     }
 }
