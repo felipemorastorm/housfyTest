@@ -22,7 +22,7 @@ class apiOfficesController extends Controller
     public function getAllOffices(Request $request){
         try {
 
-            if(Redis::exists('allOffices')){
+            if(Redis::exists('allOffices') && Redis::get('allOffices')!=0){
                 $offices = (Redis::get('allOffices'));
             }else {
                 $offices = Offices::all();

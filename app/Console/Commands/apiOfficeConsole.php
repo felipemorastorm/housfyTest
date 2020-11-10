@@ -48,6 +48,7 @@ class apiOfficeConsole extends Command
         $option = $this->menu('Api Office')
             ->addOption('Stop all services Docker', 'Stop all services docker')
             ->addOption('Run docker composer', 'Run docker composer')
+            ->addOption('Show office', 'Show  office')
             ->addOption('Show all offices', 'Show all offices')
             ->addOption('update office', 'update office')
             ->addOption('new office', 'new office')
@@ -55,13 +56,16 @@ class apiOfficeConsole extends Command
             ->setWidth(150)
             ->open();
 
-            $this->info("You have chosen the text option: $option");
+            /*DOCKER OPERATIONS START/STOP*/
+            $this->info("You have chosen the option: $option");
             if($option=='Run docker composer'){
                 $output =shell_exec('docker-compose up -d');
             }
             if($option=='Stop all services Docker'){
                 $output = shell_exec('docker-compose down');
             }
+
+            /*READ OPERATIONS*/
             if($option=='Show all offices'){
                 $client = new Client();
                 $response = $client->request('GET', $api_Url.'offices');
@@ -70,6 +74,11 @@ class apiOfficeConsole extends Command
                 foreach ($responseBody as $lineOffice){
                     echo $lineOffice->id.' '.$lineOffice->name.' '.$lineOffice->address.PHP_EOL;
                 }
+            }
+            if($option=='Show office'){
+                $id = readline("Id Office : ");
+                $httpClient = Http::get($api_Url.'getOffice?id='.$id);
+                echo $httpClient->body();
             }
             if($option=='update office'){
                 $name = readline("Name : ");
