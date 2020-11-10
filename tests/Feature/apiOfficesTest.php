@@ -49,13 +49,13 @@ class apiOfficesTest extends TestCase
     public function testGetOfficeWithParamsFail(){
         //try get operation string
         $response = $this->json('GET', $this->api_Url.'getOffice',array('id'=>'string'));
-        $response->assertStatus(402);
+        $response->assertStatus(422);
         //try get operation id=0
         $response = $this->json('GET', $this->api_Url.'getOffice',array('id'=>0));
-        $response->assertStatus(402);
+        $response->assertStatus(422);
         //try get operation id not exist
         $response = $this->json('GET', $this->api_Url.'getOffice',array('id'=>3093824982));
-        $response->assertStatus(402);
+        $response->assertStatus(422);
     }
 
 
